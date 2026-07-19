@@ -2,7 +2,7 @@
 
 **VisionSense — Real-Time Computer Vision System**
 
-Copyright © 2026 Muhammad Izaan. All Rights Reserved.
+Copyright © 2026 Moiz Baloch. All Rights Reserved.
 
 ---
 
@@ -57,8 +57,8 @@ Any use permitted by the Owner under a separate written agreement **must** inclu
 
 Required attribution format:
 
-> **VisionSense** by **Muhammad Izaan** — used with permission.  
-> © 2026 Muhammad Izaan. All Rights Reserved.
+> **VisionSense** by **Moiz Baloch** — used with permission.  
+> © 2026 Moiz Baloch. All Rights Reserved.
 
 ---
 
@@ -100,7 +100,7 @@ If any provision of this licence is held to be invalid, illegal, or unenforceabl
 
 ## Contact
 
-**Muhammad Izaan**  
+**Moiz Baloch**  
 For permissions, citations, or business enquiries, please open an issue in the repository or contact the owner directly through their GitHub profile.
 
 ---
