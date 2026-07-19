@@ -1,0 +1,26 @@
+# VisionSense — Python Dependencies
+# ====================================
+# Install with:  pip install -r requirements.txt
+# Recommended:   use a virtual environment (.venv)
+
+# Core vision
+opencv-python>=4.9.0
+numpy>=1.26.0
+
+# YOLO + ByteTrack (lapx provides the LAP solver ByteTrack needs)
+ultralytics>=8.3.0
+lapx>=0.5.9
+
+# Deep-learning backend  (choose ONE block below)
+# -- GPU (CUDA 12.x) --
+# torch>=2.3.0+cu121
+# torchvision>=0.18.0+cu121
+# -- CPU only --
+torch>=2.3.0
+torchvision>=0.18.0
+
+# Configuration
+PyYAML>=6.0.1
+
+# Optional: faster image encoding for dataset collection
+# Pillow>=10.3.0

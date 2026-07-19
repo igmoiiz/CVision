@@ -1,0 +1,80 @@
+# VisionSense — Runtime Configuration
+# =====================================
+# Edit this file to customise every aspect of the application.
+# All sections map directly to the dataclasses in src/config.py.
+
+camera:
+  index: 0              # Camera device index (0 = default webcam)
+  width: 1280           # Capture width in pixels
+  height: 720           # Capture height in pixels
+  fps: 30               # Target frame rate
+  flip_horizontal: false  # Mirror horizontally
+
+detection:
+  model_path: models/yolo11n.pt   # YOLO weights (auto-downloads if absent)
+  confidence: 0.45                # Min detection confidence [0-1]
+  iou: 0.50                       # NMS IoU threshold [0-1]
+  device: ""                      # "" = auto, "cpu", "0" (GPU index), "cuda", "mps"
+  classes: null                   # null = all classes, or [0, 1, 2] to filter
+  mode: detect                    # detect | segment | pose
+  tracker: bytetrack.yaml         # ByteTrack or botsort.yaml
+  warmup_frames: 2                # GPU warm-up frames before live capture
+
+line_counter:
+  enabled: true
+  start: [0, 360]
+  end: [1280, 360]
+  color: [0, 255, 255]  # BGR
+  thickness: 2
+
+region_counter:
+  enabled: false
+  polygon:
+    - [200, 100]
+    - [1080, 100]
+    - [1080, 620]
+    - [200, 620]
+  color: [255, 128, 0]  # BGR
+
+renderer:
+  show_hud: true
+  show_analytics: true
+  show_trails: true
+  trail_length: 30
+  show_confidence: true
+  show_track_id: true
+  box_thickness: 2
+  font_scale: 0.55
+  text_thickness: 1
+  mask_alpha: 0.35      # Segmentation mask opacity [0-1]
+  hud_alpha: 0.55       # HUD background opacity [0-1]
+  show_heatmap: false
+
+recording:
+  output_dir: outputs/recordings
+  codec: mp4v            # mp4v | XVID | H264 | avc1
+  extension: .mp4
+
+snapshot:
+  output_dir: outputs/screenshots
+  extension: .png
+
+dataset:
+  output_dir: datasets/raw
+  auto_interval: 0       # 0 = manual only; N = collect every N frames
+  save_labels: true      # Write YOLO .txt annotations
+  dataset_name: custom_dataset
+
+training:
+  epochs: 50
+  batch: 16
+  imgsz: 640
+  device: ""
+  project: models/custom
+  name: train
+  pretrained: true
+
+# Global
+window_name: "VisionSense"
+log_level: INFO
+log_file: outputs/visionsense.log

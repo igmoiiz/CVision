@@ -1,1 +1,45 @@
-.venv
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Build artefacts
+build/
+dist/
+*.egg-info/
+*.spec
+
+# YOLO model weights (large binaries — download separately)
+models/*.pt
+models/*.onnx
+models/*.tflite
+models/custom/
+
+# Outputs (recordings, screenshots, logs)
+outputs/recordings/*.mp4
+outputs/recordings/*.avi
+outputs/screenshots/*.png
+outputs/screenshots/*.jpg
+outputs/visionsense.log
+outputs/report_*.csv
+
+# Dataset images (keep structure, not raw data)
+datasets/raw/images/
+datasets/raw/labels/
+
+# IDE / OS
+.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Env files
+.env
+*.env
