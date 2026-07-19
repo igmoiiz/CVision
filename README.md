@@ -328,6 +328,6 @@ This project is governed by a **proprietary licence**. See [LICENSE.md](LICENSE.
 ## 👤 Author
 
 **Moiz Baloch**  
-Computer Vision & AI/ML Engineer  
+Computer Vision and AI/ML Engineer  
 
 *If you use or reference this project in any work, you are required to credit the author as described in [LICENSE.md](LICENSE.md).*
