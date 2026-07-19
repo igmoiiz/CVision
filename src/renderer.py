@@ -46,12 +46,14 @@ class Renderer:
 
             cv2.putText(
                 frame,
-                text,
-                (x1, y1 - 10),
+                f"Objects : {len(boxes)}",
+                (20, 35),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.6,
-                color,
+                0.7,
+                (0, 255, 255),
                 2
             )
 
         return frame
+    
+    
