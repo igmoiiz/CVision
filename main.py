@@ -5,6 +5,7 @@ from src.camera import Camera
 from src.detector import ObjectDetector
 from src.renderer import Renderer
 from src.fps import FPS
+from src.analytics import Analytics
 
 
 def main():
@@ -13,6 +14,7 @@ def main():
     detector = ObjectDetector()
     renderer = Renderer()
     fps = FPS()
+    analytics = Analytics()
 
     while True:
 
@@ -31,28 +33,32 @@ def main():
 
         inference_time = (end_time - start_time) * 1000
 
-        # Draw detections
-        frame = renderer.draw(frame, results)
+        # Update analytics
+        analytics.update(results)
 
-        # Calculate FPS
+        counts = analytics.get_counts()
+
+        # Draw detections
+        frame = renderer.draw(frame, results, counts)
+
+        # FPS
         current_fps = fps.update()
 
-        # Display FPS
         cv2.putText(
             frame,
             f"FPS : {current_fps}",
-            (20, 70),
+            (20, 30),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.7,
             (0, 255, 0),
             2
         )
 
-        # Display inference time
+        # Inference Time
         cv2.putText(
             frame,
             f"Inference : {inference_time:.1f} ms",
-            (20, 105),
+            (20, 60),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.7,
             (255, 255, 0),

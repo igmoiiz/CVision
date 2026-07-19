@@ -10,17 +10,15 @@ class Renderer:
             "cell phone": (255, 0, 255),
             "bottle": (255, 255, 0),
             "laptop": (255, 0, 0),
-            "chair": (0, 165, 255)
+            "chair": (0, 165, 255),
         }
 
         self.default_color = (0, 0, 255)
 
-    def draw(self, frame, results):
+    def draw(self, frame, results, counts):
 
         boxes = results[0].boxes
         names = results[0].names
-
-        displayed_objects = 0
 
         for box in boxes:
 
@@ -28,8 +26,6 @@ class Renderer:
 
             if confidence < 0.50:
                 continue
-
-            displayed_objects += 1
 
             class_id = int(box.cls[0])
             label = names[class_id]
@@ -62,15 +58,33 @@ class Renderer:
                 2
             )
 
-        # Draw object count once, outside the loop
+        # Analytics Panel
+        start_y = 100
+
         cv2.putText(
             frame,
-            f"Objects : {displayed_objects}",
-            (20, 35),
+            "Detected Objects",
+            (20, start_y),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.7,
-            (0, 255, 255),
+            (255, 255, 255),
             2
         )
+
+        y = start_y + 35
+
+        for class_name, count in sorted(counts.items()):
+
+            cv2.putText(
+                frame,
+                f"{class_name.title()}: {count}",
+                (20, y),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.65,
+                (0, 255, 255),
+                2
+            )
+
+            y += 28
 
         return frame
