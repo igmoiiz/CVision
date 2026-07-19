@@ -1,14 +1,20 @@
-import cv2 # type: ignore
+import cv2
 
 from src.camera import Camera
 from src.detector import ObjectDetector
+from src.renderer import Renderer
 
 
 def main():
+
     camera = Camera()
+
     detector = ObjectDetector()
 
+    renderer = Renderer()
+
     while True:
+
         success, frame = camera.read()
 
         if not success:
@@ -16,10 +22,9 @@ def main():
 
         results = detector.detect(frame)
 
-        # Draw detections on the frame
-        annotated_frame = results[0].plot()
+        frame = renderer.draw(frame, results)
 
-        cv2.imshow("VisionSense", annotated_frame)
+        cv2.imshow("VisionSense", frame)
 
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
