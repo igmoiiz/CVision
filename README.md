@@ -2,7 +2,7 @@
 
 **A production-quality, real-time computer vision desktop application built with Python, OpenCV, Ultralytics YOLO11, and ByteTrack.**
 
-VisionSense provides a modular, config-driven pipeline for live object detection, multi-object tracking, instance segmentation, pose estimation, analytics, line/region counting, video recording, snapshot capture, and custom model fine-tuning — all from a single webcam.
+VisionSense provides a modular, config-driven pipeline for live object detection, multi-object tracking, instance segmentation, pose estimation, analytics, line/region counting, video recording, snapshot capture, and custom model fine-tuning, all from a single webcam.
 
 ---
 
@@ -327,7 +327,7 @@ This project is governed by a **proprietary licence**. See [LICENSE.md](LICENSE.
 
 ## 👤 Author
 
-**Muhammad Izaan**  
-Computer Vision & AI Engineer  
+**Moiz Baloch**  
+Computer Vision & AI/ML Engineer  
 
 *If you use or reference this project in any work, you are required to credit the author as described in [LICENSE.md](LICENSE.md).*
