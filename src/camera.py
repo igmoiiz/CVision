@@ -1,4 +1,4 @@
-import cv2
+import cv2 # type: ignore
 
 class Camera:
     def __init__(self, camera_index=0):
