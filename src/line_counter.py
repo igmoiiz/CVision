@@ -1,32 +1,3 @@
-"""
-VisionSense — Line Counter & Region Counter
-============================================
-Provides two counting primitives:
-
-* **LineCounter** — counts objects crossing a configurable virtual line.
-  Supports bidirectional counting (IN / OUT) based on the direction of travel.
-
-* **RegionCounter** — counts objects whose centroid lies inside a configurable
-  convex or concave polygon region.
-
-Both write their overlays directly onto frames via their ``draw()`` method.
-
-Usage
------
-    from src.line_counter import LineCounter, RegionCounter
-    from src.config import Config
-
-    cfg = Config.from_yaml("config.yaml")
-    lc = LineCounter(cfg)
-    rc = RegionCounter(cfg)
-
-    lc.update(results)
-    rc.update(results)
-
-    frame = lc.draw(frame)
-    frame = rc.draw(frame)
-"""
-
 from __future__ import annotations
 
 import logging
@@ -42,12 +13,8 @@ from src.config import Config
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
 # Helpers
-# ---------------------------------------------------------------------------
-
 def _centroid(x1: int, y1: int, x2: int, y2: int) -> Tuple[int, int]:
-    """Return the integer centroid of a bounding box."""
     return (x1 + x2) // 2, (y1 + y2) // 2
 
 
@@ -56,28 +23,11 @@ def _side_of_line(
     ax: int, ay: int,
     bx: int, by: int,
 ) -> float:
-    """Signed cross-product to determine which side of AB the point P lies on.
-
-    Positive → left side; Negative → right side; Zero → on the line.
-    """
     return float((bx - ax) * (py - ay) - (by - ay) * (px - ax))
 
 
-# ---------------------------------------------------------------------------
 # Line Counter
-# ---------------------------------------------------------------------------
-
-
 class LineCounter:
-    """Virtual-line crossing counter with bidirectional IN/OUT tracking.
-
-    Parameters
-    ----------
-    config : Config
-        Root application configuration. Line geometry is taken from
-        ``config.line_counter``.
-    """
-
     def __init__(self, config: Config) -> None:
         self._cfg = config.line_counter
         self._ax, self._ay = self._cfg.start
@@ -86,7 +36,7 @@ class LineCounter:
         # Track the last-seen side per object ID
         self._prev_side: Dict[int, float] = {}
 
-        # IDs already counted (avoid double-counting per crossing)
+        # IDs already counted 
         self._counted_in: Set[int] = set()
         self._counted_out: Set[int] = set()
 
@@ -97,18 +47,8 @@ class LineCounter:
         self.class_in: Dict[str, int] = defaultdict(int)
         self.class_out: Dict[str, int] = defaultdict(int)
 
-    # ------------------------------------------------------------------
     # Update
-    # ------------------------------------------------------------------
-
     def update(self, results: List[Results]) -> None:
-        """Process detection results for one frame.
-
-        Parameters
-        ----------
-        results : list[Results]
-            Ultralytics results list.
-        """
         if not results or results[0].boxes is None:
             return
 
@@ -147,23 +87,8 @@ class LineCounter:
 
             self._prev_side[obj_id] = side
 
-    # ------------------------------------------------------------------
     # Draw
-    # ------------------------------------------------------------------
-
     def draw(self, frame: np.ndarray) -> np.ndarray:
-        """Render the counting line and IN/OUT counters onto *frame*.
-
-        Parameters
-        ----------
-        frame : np.ndarray
-            BGR frame to draw on (in-place).
-
-        Returns
-        -------
-        np.ndarray
-            Annotated frame.
-        """
         color = tuple(self._cfg.color)
         thickness = self._cfg.thickness
 
@@ -199,7 +124,6 @@ class LineCounter:
         return frame
 
     def reset(self) -> None:
-        """Reset all counters and tracking state."""
         self._prev_side.clear()
         self._counted_in.clear()
         self._counted_out.clear()
@@ -209,24 +133,8 @@ class LineCounter:
         self.class_out.clear()
 
 
-# ---------------------------------------------------------------------------
 # Region Counter
-# ---------------------------------------------------------------------------
-
-
 class RegionCounter:
-    """Polygon region occupancy counter.
-
-    Objects whose centroid falls inside the configured polygon are counted as
-    *inside* the region. The count updates every frame.
-
-    Parameters
-    ----------
-    config : Config
-        Root application configuration. Polygon vertices are read from
-        ``config.region_counter``.
-    """
-
     def __init__(self, config: Config) -> None:
         self._cfg = config.region_counter
 
@@ -239,18 +147,8 @@ class RegionCounter:
         self.class_counts: Dict[str, int] = defaultdict(int)
         self.inside_count: int = 0
 
-    # ------------------------------------------------------------------
     # Update
-    # ------------------------------------------------------------------
-
     def update(self, results: List[Results]) -> None:
-        """Compute region occupancy for one frame.
-
-        Parameters
-        ----------
-        results : list[Results]
-            Ultralytics results list.
-        """
         self.class_counts.clear()
         self.inside_count = 0
 
@@ -272,23 +170,8 @@ class RegionCounter:
                 self.inside_count += 1
                 self.class_counts[cls_name] += 1
 
-    # ------------------------------------------------------------------
     # Draw
-    # ------------------------------------------------------------------
-
     def draw(self, frame: np.ndarray) -> np.ndarray:
-        """Render the region polygon and occupancy count onto *frame*.
-
-        Parameters
-        ----------
-        frame : np.ndarray
-            BGR frame to draw on.
-
-        Returns
-        -------
-        np.ndarray
-            Annotated frame.
-        """
         color = tuple(self._cfg.color)
 
         # Semi-transparent fill
@@ -320,6 +203,5 @@ class RegionCounter:
         return frame
 
     def reset(self) -> None:
-        """Clear region counts."""
         self.class_counts.clear()
         self.inside_count = 0
